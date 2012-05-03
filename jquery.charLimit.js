@@ -7,12 +7,20 @@
  *	Updated:	2011-10-03
  */
 
-;(function() {
+;(function($) {
 	$.fn.charLimit = function(limit,text) {
 		var me		= this,
 			myId	= me.attr('id'),
 			// feedback HTML
-			info	= $('<span/>',{id:myId+'-charsleft',css:{width:(me.width() - 10),fontSize:'10px',textAlign:'right',color:'#9f9'}}),
+			info	= $('<span/>',{
+				id: myId+'-charsleft',
+				css: {
+					width: (me.width() - 10),
+					fontSize: '10px',
+					textAlign: 'right',
+					color: '#9f9'
+				}
+			}),
 			// check the input for existing content's length
 			chars	= me.val().length,
 			// text to append after the countdown number
@@ -57,4 +65,4 @@
 			info.html((limit-chars) + text);
 		});
 	};
-})(jQuery);
+}(jQuery));
