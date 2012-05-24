@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Testing jQuery charLimit plugin</title>
+	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+	<script src="jquery.charLimit.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="test" style="float:left;margin:20px;width:200px;">
+		<label for="limited1">Limited textarea 1 (via class selector)</label>
+		<textarea id="limited1" class="limited"></textarea>
+		<label for="limited2">Limited textarea 2 (via class selector)</label>
+		<textarea id="limited2" class="limited"></textarea>
+		
+		<label for="limited3">Limited textarea 2 (via id)</label>
+		<textarea id="limited3"></textarea>
+	</div>
+<script type="text/javascript">
+$(function() {
+	$('#limited3').charLimit(120, ' chars remaining');
+	$('textarea.limited').charLimit(100,' left');
+});
+</script>
+</body>
+</html>
