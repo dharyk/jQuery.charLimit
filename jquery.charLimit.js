@@ -8,9 +8,11 @@
  */
 
 ;(function($) {
+	var clCount = 0;
 	$.fn.charLimit = function(limit,text) {
-		var me		= this,
-			myId	= me.attr('id'),
+		var me		= this;
+		if (me.length < 1) return me; // nothing to do here, but maintain chainability anyway
+		var myId	= me.attr('id') || ('autogen-cl'+clCount++),
 			// feedback HTML
 			info	= $('<span/>',{
 				id: myId+'-charsleft',
@@ -22,7 +24,7 @@
 				}
 			}),
 			// check the input for existing content's length
-			chars	= me.val().length,
+			chars	= (typeof me.val === "function") ? me.val().length : 0,
 			// text to append after the countdown number
 			text	= text || ' remaining',
 			// maximum number of characters allowed
@@ -33,7 +35,8 @@
 			info.css({
 				position:	'absolute',
 				top:		me.position().top + me.height() - 15,
-				left:		me.position().left + 5
+				left:		me.position().left + 5,
+				width:		me.width() - 10
 			}).html((limit - chars) + text);
 			// display the feedback HTML
 			me.after(info);
@@ -64,5 +67,6 @@
 			// update the feedback HTML
 			info.html((limit-chars) + text);
 		});
+		return me;
 	};
 }(jQuery));
