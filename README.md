@@ -5,4 +5,5 @@ jQuery plugin to limit the number of characters allowed in a textarea input, dis
 
 Usage:
 ---
-	$('textarea').charLimit(500);
+	// will display "X characters left", counting down from 500
+	$('textarea').charLimit(500, ' characters left');
