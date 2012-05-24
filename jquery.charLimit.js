@@ -12,61 +12,70 @@
 	$.fn.charLimit = function(limit,text) {
 		var me		= this;
 		if (me.length < 1) return me; // nothing to do here, but maintain chainability anyway
-		var myId	= me.attr('id') || ('autogen-cl'+clCount++),
-			// feedback HTML
-			info	= $('<span/>',{
-				id: myId+'-charsleft',
-				css: {
-					width: (me.width() - 10),
-					fontSize: '10px',
-					textAlign: 'right',
-					color: '#9f9'
-				}
-			}),
-			// check the input for existing content's length
-			chars	= (typeof me.val === "function") ? me.val().length : 0,
-			// text to append after the countdown number
-			text	= text || ' remaining',
-			// maximum number of characters allowed
-			limit	= limit || 500;
-		// onFocus event
-		me.focus(function() {
-			// position the feedback HTML
-			info.css({
-				position:	'absolute',
-				top:		me.position().top + me.height() - 15,
-				left:		me.position().left + 5,
-				width:		me.width() - 10
-			}).html((limit - chars) + text);
-			// display the feedback HTML
-			me.after(info);
-		})
-		// onBlur event
-		.blur(function() {
-			// hide the feedback HTML
-			info.remove();
-		})
-		// onKeyUp event
-		.keyup(function() {
-			// get the current content of the textarea
-			var content = me.val();
-			// update the content's length
-			chars = content.length;
-			// don't allow more characters than the limit
-			if (chars > limit) {
-				chars = limit;
-				// cap the content to the specified limit
-				me.val(content.substr(0,limit));
-			}
-			// show feedback text in red if reaching the limit, otherwise, text is green
-			if (limit - chars < 10) {
-				info.css({color:'#f99'});
-			} else {
-				info.css({color:'#9f9'});
-			}
-			// update the feedback HTML
-			info.html((limit-chars) + text);
-		});
+		// initialize function
+		function __init(index, elem) {
+			var $elem	= $(elem),
+				myId	= $elem.attr('id') || ('autogen-cl'+clCount++),
+				// feedback HTML
+				info	= $('<span/>',{
+					id: myId+'-charsleft',
+					css: {
+						width: ($elem.width() - 10),
+						fontSize: '10px',
+						textAlign: 'right',
+						color: '#9f9'
+					}
+				}),
+				// check the input for existing content's length
+				chars	= (typeof $elem.val === "function") ? $elem.val().length : 0,
+				// text to append after the countdown number
+				text	= text || ' remaining',
+				// maximum number of characters allowed
+				max	= limit || 500;
+			console.log(max);
+			// onFocus event
+			$elem
+				.focus(function() {
+					// position the feedback HTML
+					info.css({
+						position:	'absolute',
+						top:		$elem.position().top + me.height() - 15,
+						left:		$elem.position().left + 5,
+						width:		$elem.width() - 10
+					}).html((max - chars) + text).show();
+				})
+				// onBlur event
+				.blur(function() {
+					// hide the feedback HTML
+					info.hide();
+				})
+				// onKeyUp event
+				.keyup(function() {
+					// get the current content of the textarea
+					var content = me.val();
+					// update the content's length
+					chars = content.length;
+					// don't allow more characters than the limit
+					if (chars > max) {
+						chars = max;
+						// cap the content to the specified limit
+						me.val(content.substr(0,max));
+					}
+					// show feedback text in red if reaching the limit, otherwise, text is green
+					if (max - chars < 10) {
+						info.css({color:'#f99'});
+					} else {
+						info.css({color:'#9f9'});
+					}
+					// update the feedback HTML
+					info.html((max-chars) + text);
+				});
+			// add the feedback HTML to the DOM
+			$elem.after(info);
+		}
+		// initialize each element selected
+		me.each(__init);
+		// maintain chainability
 		return me;
 	};
 }(jQuery));
