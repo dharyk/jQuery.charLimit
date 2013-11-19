@@ -32,7 +32,6 @@
 				text	= text || ' remaining',
 				// maximum number of characters allowed
 				max	= limit || 500;
-			console.log(max);
 			// onFocus event
 			$elem
 				.focus(function() {
